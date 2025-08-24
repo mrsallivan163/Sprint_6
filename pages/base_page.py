@@ -1,6 +1,6 @@
-from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from locators.base_lct import BaseLocators
 from selenium import webdriver
 
 class BasePage():
@@ -63,10 +63,10 @@ class BasePage():
         self.driver.close()
         self.driver.switch_to.window(original_window)
 
-    def confirm_cookies(self, locator):
+    def confirm_cookies(self):
         """Закрываем баннер с Cookies, если он есть"""
         try:
-            button = self.driver.find_element(*locator)
+            button = self.driver.find_element(*BaseLocators.CONFIRM_COOKIES)
             if button.is_displayed() and button.is_enabled():
                 button.click()
         except:

@@ -2,7 +2,6 @@ import allure
 import pytest
 
 from data_layer.create_order_scooter_page_dl import DataLayer
-from locators.base_lct import BaseLocators
 from locators.create_order_page_lct import CreateOrderPageLocators
 from config import Url
 from pages.create_order_scooter_page import CreateOrderScooterPage
@@ -21,7 +20,7 @@ class TestCreateOrdersScooter():
 
     def setup_method(self):
         self.create_order.go_to(Url.MAIN_URL)
-        self.create_order.confirm_cookies(BaseLocators.CONFIRM_COOKIES)
+        self.create_order.confirm_cookies()
 
     @allure.title(f'Проверка оформления заказа')
     @pytest.mark.parametrize(

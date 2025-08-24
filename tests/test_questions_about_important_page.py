@@ -3,7 +3,6 @@ import allure
 
 from pages.questions_about_important_page import QuestionAboutImportantPage
 from locators.question_about_important_page_lct import QuestionAboutImportantPageLocators
-from locators.base_lct import BaseLocators
 from data_layer.question_about_important_page_dl import DataLayer
 from config import Url
 
@@ -21,7 +20,7 @@ class TestAnswersToImportantQuestions():
 
     def setup_method(self):
         self.question.go_to(Url.MAIN_URL)
-        self.question.confirm_cookies(BaseLocators.CONFIRM_COOKIES)
+        self.question.confirm_cookies()
 
     @allure.title(f'Проверка ответа на вопроc')
     @pytest.mark.parametrize('question_title, question_locator, answer_locator, expected_text_answer',

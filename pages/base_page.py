@@ -1,12 +1,31 @@
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium import webdriver
 
 class BasePage():
 
-    def __init__(self, driver: WebDriver):
-        self.driver = driver
-        self.wait = WebDriverWait(driver, 5)
+    def __init__(self, driver=None):
+        if driver is None:
+            self.driver = webdriver.Firefox()
+        else:
+            self.driver = driver
+        self.wait = WebDriverWait(self.driver, 10)
+
+    def go_to(self, url):
+        self.driver.get(url)
+
+    def quit(self):
+        self.driver.quit()
+
+    def find_element(self, locator):
+        """Находим элемент по локатору"""
+        return self.wait.until(EC.presence_of_element_located(locator))
+
+    def find_element_text(self, locator):
+        """Возвращаем текст элемента"""
+        element = self.find_element(locator)
+        return element.text
 
     def enter_text(self, locator, text):
         """Ввод текст в поле ввода"""

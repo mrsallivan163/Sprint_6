@@ -1,4 +1,3 @@
-from selenium import webdriver
 import allure
 import pytest
 
@@ -14,15 +13,14 @@ class TestCreateOrdersScooter():
 
     @classmethod
     def setup_class(cls):
-        cls.driver = webdriver.Firefox()
-        cls.create_order = CreateOrderScooterPage(cls.driver)
+        cls.create_order = CreateOrderScooterPage()
 
     @classmethod
     def teardown_class(cls):
-        cls.driver.quit()
+        cls.create_order.quit()
 
     def setup_method(self):
-        self.driver.get(Url.MAIN_URL)
+        self.create_order.go_to(Url.MAIN_URL)
         self.create_order.confirm_cookies(BaseLocators.CONFIRM_COOKIES)
 
     @allure.title(f'Проверка оформления заказа')
@@ -45,17 +43,17 @@ class TestCreateOrdersScooter():
         with allure.step('Заполняем форму заказа "Для кого самокат"'):
             self.create_order.fill_personal_info(user_name, user_surname, address, phone_number, metro_locator)
         with allure.step('Кликаем по кнопке "Далее"'):
-            self.create_order.click_on_element(CreateOrderPageLocators.NEXT_BUTTON)
+            self.create_order.click_button_next()
         with allure.step('Заполняем форму заказа "Про аренду"'):
-            self.create_order.fill_rent_info(date_rent, time_rent, color)
+            self.create_order.fill_rent_info(date_rent, time_rent, color, comment)
         with allure.step('Кликаем на кнопку подтверждения заказа "Да"'):
-            self.create_order.click_on_element(CreateOrderPageLocators.CONFIRM_ORDER_BUTTON)
+            self.create_order.click_comfirm_order_button()
         with allure.step('Проверяем отображение модального окна "Заказ оформлен"'):
-            self.create_order.check_success_order_modal(CreateOrderPageLocators.SUCCESS_ORDER_MODAL, DataLayer.TEXT_MODAL_SUCCESS_ORDER)
+            self.create_order.check_success_order_modal()
         with allure.step('Кликаем по кнопке "Посмотреть статус"'):
-            self.create_order.click_on_element(CreateOrderPageLocators.CHECK_ORDER_STATUS)
+            self.create_order.click_button_status_order()
         with allure.step('Проверяем переход на главную страницу, при клике по логотипу "Самокат" в хедере'):
-            self.create_order.click_on_element(BaseLocators.LOGO_SCOOTER)
-            self.create_order.check_current_url(Url.MAIN_URL)
+            self.create_order.click_on_logo_scooter()
+            self.create_order.check_current_url_main_scooter()
         with allure.step('Кликаем на лого "Яндекс" в хедере и проверяем открытие страницы "Дзен" в новой вкладке'):
-            self.create_order.check_url_new_window_page(BaseLocators.LOGO_YANDEX, Url.DZEN_URL)
+            self.create_order.check_current_url_new_window_is_dzen()
